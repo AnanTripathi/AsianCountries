@@ -1,7 +1,9 @@
 package com.project.asiancountries;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.PictureDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 
 import java.util.List;
 
@@ -39,25 +44,34 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Country currentCountry=countryList.get(position);
-        holder.countryNameTextView.setText(currentCountry.getName());
-        holder.countryCapitalTextView.setText(currentCountry.getCapital());
-        holder.countryRegionTextView.setText(currentCountry.getRegion());
-        holder.countrySubRegionTextView.setText(currentCountry.getSubRegion());
-        holder.countryPopulationTextView.setText(currentCountry.getPopulation().toString());
+        holder.countryNameTextView.setText("Name: "+currentCountry.getName());
+        holder.countryCapitalTextView.setText("Capital: "+currentCountry.getCapital());
+        holder.countryRegionTextView.setText("Region: "+currentCountry.getRegion());
+        holder.countrySubRegionTextView.setText("SubRegion: "+currentCountry.getSubRegion());
+        holder.countryPopulationTextView.setText("Population: "+currentCountry.getPopulation().toString());
         List<String> borders=currentCountry.getBorders();
         String border="Borders:\n";
         for(int i=0;i<borders.size();i++){
-            border=border+i+"."+borders.get(i)+"\n";
+            border=border+i+1+"."+borders.get(i)+"\n";
         }
         holder.countryBordersTextView.setText(border);
         List<Language> languages=currentCountry.getLanguageList();
         String language="Languages:\n";
         for(int i=0;i<languages.size();i++){
-            language=language+i+". Name:"+languages.get(i).getName();
+            language=language+i+1+". Name:"+languages.get(i).getName();
             language=language+"\n   Native Name: "+languages.get(i).getNativeName()+"\n";
         }
         holder.countryLanguagesTextView.setText(language);
-
+        RequestBuilder<PictureDrawable> requestBuilder = GlideToVectorYou
+                .init()
+                .with(context)
+                .getRequestBuilder();
+        requestBuilder
+                .load(Uri.parse(currentCountry.getFlagUrl()))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .apply(new RequestOptions()
+                .fitCenter())
+                .into(holder.flagImageView);
     }
 
     @Override
