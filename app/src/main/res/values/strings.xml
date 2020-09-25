@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AsianCountries</string>
+    <string name="network_error">Please check your internet connection your local database is empty</string>
+    <string name="data_loading">The Data is being loaded form internet and it may take some time depending on your internet speed</string>
 </resources>

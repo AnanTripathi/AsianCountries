@@ -1,4 +1,4 @@
-package com.project.asiancountries;
+package com.project.asiancountries.util;
 
 import com.google.gson.annotations.SerializedName;
 

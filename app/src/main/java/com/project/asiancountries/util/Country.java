@@ -1,12 +1,44 @@
-package com.project.asiancountries;
+package com.project.asiancountries.util;
 
-import android.content.Intent;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
+import com.project.asiancountries.retrofit.BordersTypeConverter;
+import com.project.asiancountries.retrofit.LanguageTypeConvertor;
 
 import java.util.List;
-
+@Entity
+@TypeConverters({BordersTypeConverter.class, LanguageTypeConvertor.class})
 public class Country {
+    @NonNull
+    public String getNumericCode() {
+        return numericCode;
+    }
+
+    public Country(@NonNull String numericCode, String name, String capital, String flagUrl, String region, String subRegion, Integer population, List<String> borders, List<Language> languageList) {
+        this.numericCode = numericCode;
+        this.name = name;
+        this.capital = capital;
+        this.flagUrl = flagUrl;
+        this.region = region;
+        this.subRegion = subRegion;
+        this.population = population;
+        this.borders = borders;
+        this.languageList = languageList;
+    }
+
+    public void setNumericCode(@NonNull String numericCode) {
+        this.numericCode = numericCode;
+    }
+
+    @NonNull @PrimaryKey
+    @SerializedName("numericCode")
+    private String numericCode;
     @SerializedName("name")
     private String name;
     @SerializedName("capital")
@@ -24,17 +56,7 @@ public class Country {
     @SerializedName("languages")
     private List<Language> languageList;
 
-    public Country(String name, String capital, String flagUrl, String region, String subRegion, Integer population, List<String> borders, List<Language> languageList) {
-        this.name = name;
-        this.capital = capital;
-        this.flagUrl = flagUrl;
-        this.region = region;
-        this.subRegion = subRegion;
-        this.population = population;
-        this.borders = borders;
-        this.languageList = languageList;
-    }
-
+   
     public String getName() {
         return name;
     }
@@ -112,4 +134,18 @@ public class Country {
                 ", languageList=" + languageList +
                 '}';
     }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Country)) {
+            return false;
+        }
+        Country emp = (Country) obj;
+        return name.equals(emp.name)&& numericCode.equals(emp.numericCode);
+    }
 }
+
+

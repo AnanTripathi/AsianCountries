@@ -1,4 +1,4 @@
-package com.project.asiancountries;
+package com.project.asiancountries.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
